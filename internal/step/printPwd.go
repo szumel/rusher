@@ -35,7 +35,7 @@ func (*PrintPwd) Name() string {
 }
 
 func (*PrintPwd) Description() string {
-	return "Print to stdout current working directory"
+	return "Print to stdout process working directory"
 }
 
 func (*PrintPwd) Params() map[string]string {

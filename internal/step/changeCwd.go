@@ -1,7 +1,6 @@
 package step
 
 import (
-	"errors"
 	"fmt"
 	"os"
 )
@@ -45,9 +44,9 @@ func (*ChangeCwd) Params() map[string]string {
 	return params
 }
 
-func (*ChangeCwd) Validate(ctx Context) error {
+func (c *ChangeCwd) Validate(ctx Context) error {
 	if ctx.Params()["dir"] == "" {
-		return errors.New("ChangeCwd: dir param must be provided")
+		return NewError(c.Name(), "dir param must be provided")
 	}
 
 	return nil
