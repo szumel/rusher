@@ -4,12 +4,9 @@
    <config>
        <environment>test</environment>
        <projectPath>/home/projects/releaser/src</projectPath>
+       <!-- Execute 'rusher listSteps' for all available steps listing -->
        <steps>
            <step code="printPwd"/>
-           <step code="copyFiles" from="./tests/testfile" to="./tests/testfilecopy"/>
-           <step code="composerInstall"/>
-           <step code="removeDir" dir="vendor"/>
-           <step code="composerInstall"/>
        </steps>
    </config>
 </configPool>

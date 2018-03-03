@@ -3,7 +3,7 @@ package step
 
 import (
 	"rusher/internal/platform/container"
-	"rusher/internal/step/schema"
+	"rusher/internal/platform/schema"
 )
 
 const AliasPool = "step.Pool"

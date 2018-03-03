@@ -8,7 +8,7 @@ import (
 	"rusher/internal/platform/container"
 	"rusher/internal/rollback"
 	"rusher/internal/step"
-	"rusher/internal/step/schema"
+	"rusher/internal/platform/schema"
 )
 
 var schemaFlag string

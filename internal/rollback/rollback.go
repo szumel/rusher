@@ -9,7 +9,6 @@ func init() {
 	container.Set(AliasRollbacker, &r)
 }
 
-//there should be needed some context or data
 type Rollbacker interface {
 	Rollback() error
 	Code() string
