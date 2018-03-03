@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<configPool>
+   <config>
+       <environment>test</environment>
+       <projectPath>/home/projects/releaser/src</projectPath>
+       <steps>
+           <step code="printPwd"/>
+           <step code="copyFiles" from="./tests/testfile" to="./tests/testfilecopy"/>
+           <step code="composerInstall"/>
+           <step code="removeDir" dir="vendor"/>
+           <step code="composerInstall"/>
+       </steps>
+   </config>
+</configPool>
