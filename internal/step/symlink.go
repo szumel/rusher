@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"rusher/internal/rollback"
+	"rusher/internal/platform/rollback"
 )
 
 func init() {

@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 	"rusher/internal/platform/container"
-	"rusher/internal/rollback"
+	"rusher/internal/platform/rollback"
 	"rusher/internal/step"
 	"rusher/internal/platform/schema"
 )
