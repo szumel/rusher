@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"rusher/internal/platform/risk"
 )
 
 func init() {
@@ -12,11 +13,23 @@ func init() {
 
 type copyFiles struct{}
 
-func (*copyFiles) Validate(ctx Context) error {
+func (self *copyFiles) Validate(ctx Context) error {
 	fromPath := ctx.Params()["from"]
+	toPath := ctx.Params()["to"]
+
 	_, err := os.Stat(fromPath)
 	if err != nil {
 		return err
+	}
+
+	err = risk.DirCheck(fromPath)
+	if err != nil {
+		return NewError(self.Name(), fromPath+" directory has been detected as risky")
+	}
+
+	err = risk.DirCheck(fromPath)
+	if err != nil {
+		return NewError(self.Name(), toPath+" directory has been detected as risky")
 	}
 
 	return nil
