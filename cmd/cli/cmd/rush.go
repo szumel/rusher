@@ -3,12 +3,13 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"log"
+	golog "log"
 	"os"
 	"rusher/internal/platform/container"
+	"rusher/internal/platform/log"
 	"rusher/internal/platform/rollback"
-	"rusher/internal/step"
 	"rusher/internal/platform/schema"
+	"rusher/internal/step"
 )
 
 var schemaFlag string
@@ -20,7 +21,7 @@ func init() {
 	rootCmd.AddCommand(rushCmd)
 }
 
-var rushCmd = &cobra.Command{
+var rushCmd *cobra.Command = &cobra.Command{
 	Use:   "rush",
 	Short: "Executes rusher's steps",
 	Long:  "Parses schema, validates and executes steps. On error rollbacks.",
@@ -32,11 +33,13 @@ var rushCmd = &cobra.Command{
 		fmt.Println("Trying to rush " + envFlag + " environment from " + schemaFlag)
 		s, err := schema.New(schemaFlag)
 		if err != nil {
-			log.Fatal("Could not fetch schema. Please ensure that given schema path is correct [" + err.Error() + "]")
+			log.Logger.Println(err.Error())
+			golog.Fatal(err)
 		}
 		currentConfig, err := schema.GetCurrentConfig(s, envFlag)
 		if err != nil {
-			log.Fatal(err)
+			log.Logger.Println(err.Error())
+			golog.Fatal(err)
 		}
 
 		fmt.Println("Rushing...")
@@ -44,12 +47,13 @@ var rushCmd = &cobra.Command{
 
 		switch err.(type) {
 		case *step.ErrInvalidStep:
-			log.Fatal(err)
+			log.Logger.Println(err.Error())
+			golog.Fatal(err)
 			break
 		case error:
-			err := doRollback(err, currentConfig)
-			if err != nil {
-				log.Fatal(err)
+			if err := doRollback(err, currentConfig); err != nil {
+				log.Logger.Println(err.Error())
+				golog.Fatal(err)
 			}
 			break
 		}
