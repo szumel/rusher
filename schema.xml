@@ -9,7 +9,7 @@
        </globals>
        <!-- Execute 'rusher listSteps' for all available steps listing -->
        <steps>
-            <step code="changeCwd" dir="/" />
+            <step code="changeCwd" dir="{php}" />
        </steps>
    </config>
 </configPool>
