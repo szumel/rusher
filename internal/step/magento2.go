@@ -45,6 +45,7 @@ type Magento2SetupUpgrade struct{}
 func (*Magento2SetupUpgrade) Execute(ctx Context) error {
 	cmd := exec.Command("bin/magento", "setup:upgrade")
 	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
 
 	return cmd.Run()
 }

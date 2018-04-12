@@ -29,6 +29,12 @@ type Config struct {
 	XMLName     xml.Name `xml:"config"`
 	ProjectPath string   `xml:"projectPath"`
 	Steps       []Step   `xml:"steps>step"`
+	Globals     []Var    `xml:"globals>var"`
+}
+
+type Var struct {
+	Name  string `xml:"name,attr"`
+	Value string `xml:"value,attr"`
 }
 
 type Step struct {

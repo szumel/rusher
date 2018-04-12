@@ -2,13 +2,15 @@
 package step
 
 import (
+	"fmt"
+	"regexp"
 	"rusher/internal/platform/container"
 	"rusher/internal/platform/schema"
 )
 
 const AliasPool = "step.Pool"
 
-type ErrInvalidStep struct {}
+type ErrInvalidStep struct{}
 
 func (e *ErrInvalidStep) Error() string {
 	return "invalid step code. You can ensure that step code is correct by calling listSteps command."
@@ -96,7 +98,10 @@ func (r *rusher) extractSteps() ([]stepCtx, error) {
 		valid := false
 		for _, step := range r.pool.Steps {
 			if step.Code() == configStep.Code {
-				ctx := r.createContext(configStep)
+				ctx, err := r.createContext(configStep, r.config)
+				if err != nil {
+					return scs, err
+				}
 				stepCtx := stepCtx{step: step, ctx: ctx}
 				scs = append(scs, stepCtx)
 				valid = true
@@ -142,22 +147,45 @@ func (r *rusher) execute(scs []stepCtx) error {
 type Context interface {
 	ProjectPath() string
 	Params() map[string]string
+	Globals() map[string]string
 }
 
-func (r *rusher) createContext(step schema.Step) Context {
-	ctx := ContextImpl{params: map[string]string{}}
+func (r *rusher) createContext(step schema.Step, config *schema.Config) (Context, error) {
+	ctx := ContextImpl{params: map[string]string{}, globals: map[string]string{}}
 	ctx.projectPath = r.config.ProjectPath
 
 	for _, param := range step.Params {
-		ctx.params[param.Name.Local] = param.Value
+		is, err := isGlobal(param.Value)
+		if err != nil {
+			return &ContextImpl{}, err
+		}
+
+		if is {
+			parsed := parseGlobal(config.Globals, param.Value)
+			if parsed == "" {
+				return &ContextImpl{}, NewError(step.Code, fmt.Sprintf("Global %s is required", param.Value))
+			}
+			ctx.params[param.Name.Local] = parsed
+		} else {
+			ctx.params[param.Name.Local] = param.Value
+		}
 	}
 
-	return &ctx
+	for _, global := range config.Globals {
+		ctx.globals[global.Name] = global.Value
+	}
+
+	return &ctx, nil
 }
 
 type ContextImpl struct {
 	projectPath string
 	params      map[string]string
+	globals     map[string]string
+}
+
+func (c *ContextImpl) Globals() map[string]string {
+	return c.globals
 }
 
 func (c *ContextImpl) ProjectPath() string {
@@ -166,4 +194,25 @@ func (c *ContextImpl) ProjectPath() string {
 
 func (c *ContextImpl) Params() map[string]string {
 	return c.params
+}
+
+func isGlobal(p string) (bool, error) {
+	regex, err := regexp.Compile("{.+}")
+	if err != nil {
+		return false, err
+	}
+
+	return regex.MatchString(p), nil
+}
+
+//@todo primitive way, change it
+func parseGlobal(globals []schema.Var, p string) string {
+	var val string
+	for _, g := range globals {
+		if "{"+g.Name+"}" == p {
+			val = g.Value
+		}
+	}
+
+	return val
 }

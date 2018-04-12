@@ -4,9 +4,12 @@
    <config>
        <environment>test</environment>
        <projectPath>/home/projects/releaser/src</projectPath>
+       <globals>
+           <var name="php" value="/usr/bin/php"/>
+       </globals>
        <!-- Execute 'rusher listSteps' for all available steps listing -->
        <steps>
-           <step code="printPwd"/>
+            <step code="changeCwd" dir="/" />
        </steps>
    </config>
 </configPool>

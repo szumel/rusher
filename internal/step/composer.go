@@ -14,7 +14,8 @@ type ComposerInstall struct{}
 
 func (*ComposerInstall) Execute(ctx Context) error {
 	fmt.Println("Executing composer install")
-	cmd := exec.Command("composer", "install")
+	fmt.Println(ctx.Globals()["php"])
+	cmd := exec.Command(ctx.Globals()["php"], "/usr/local/bin/composer", "install")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
