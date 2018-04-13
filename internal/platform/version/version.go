@@ -1,8 +1,8 @@
 //version provides tools for project's version management
 package version
 
-const version = "0.10.0"
+var VERSION string
 
 func Get() string {
-	return version
+	return VERSION
 }

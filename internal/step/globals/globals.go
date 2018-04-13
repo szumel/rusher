@@ -1,8 +1,8 @@
 package globals
 
 import (
+	"github.com/szumel/rusher/internal/platform/schema"
 	"regexp"
-	"rusher/internal/platform/schema"
 	"strings"
 )
 

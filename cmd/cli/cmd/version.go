@@ -1,9 +1,9 @@
 package cmd
 
 import (
-	"github.com/spf13/cobra"
 	"fmt"
-	"rusher/internal/platform/version"
+	"github.com/spf13/cobra"
+	"github.com/szumel/rusher/internal/platform/version"
 )
 
 func init() {
@@ -13,7 +13,7 @@ func init() {
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Show version",
-	Long: "Show version in format x.x.x",
+	Long:  "Show version in format x.x.x",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println(version.Get())
 	},

@@ -3,13 +3,13 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/szumel/rusher/internal/platform/container"
+	"github.com/szumel/rusher/internal/platform/log"
+	"github.com/szumel/rusher/internal/platform/rollback"
+	"github.com/szumel/rusher/internal/platform/schema"
+	"github.com/szumel/rusher/internal/step"
 	golog "log"
 	"os"
-	"rusher/internal/platform/container"
-	"rusher/internal/platform/log"
-	"rusher/internal/platform/rollback"
-	"rusher/internal/platform/schema"
-	"rusher/internal/step"
 )
 
 var schemaFlag string

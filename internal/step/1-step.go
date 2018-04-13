@@ -3,9 +3,9 @@ package step
 
 import (
 	"fmt"
-	"rusher/internal/platform/container"
-	"rusher/internal/platform/schema"
-	"rusher/internal/step/globals"
+	"github.com/szumel/rusher/internal/platform/container"
+	"github.com/szumel/rusher/internal/platform/schema"
+	"github.com/szumel/rusher/internal/step/globals"
 )
 
 const AliasPool = "step.Pool"

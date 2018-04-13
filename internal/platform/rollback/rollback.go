@@ -1,6 +1,6 @@
 package rollback
 
-import "rusher/internal/platform/container"
+import "github.com/szumel/rusher/internal/platform/container"
 
 const AliasRollbacker = "step.rollbacker"
 

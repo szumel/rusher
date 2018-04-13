@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"log"
-	"rusher/internal/platform/container"
-	"rusher/internal/step"
+	"github.com/szumel/rusher/internal/platform/container"
+	"github.com/szumel/rusher/internal/step"
 )
 
 func init() {

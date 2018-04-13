@@ -3,8 +3,8 @@ package step
 import (
 	"errors"
 	"fmt"
+	"github.com/szumel/rusher/internal/platform/rollback"
 	"os"
-	"rusher/internal/platform/rollback"
 )
 
 func init() {

@@ -3,7 +3,7 @@ package step
 import (
 	"fmt"
 	"os"
-	"rusher/internal/platform/risk"
+	"github.com/szumel/rusher/internal/platform/risk"
 )
 
 func init() {
