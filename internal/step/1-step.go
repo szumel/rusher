@@ -3,9 +3,9 @@ package step
 
 import (
 	"fmt"
-	"regexp"
 	"rusher/internal/platform/container"
 	"rusher/internal/platform/schema"
+	"rusher/internal/step/globals"
 )
 
 const AliasPool = "step.Pool"
@@ -155,13 +155,13 @@ func (r *rusher) createContext(step schema.Step, config *schema.Config) (Context
 	ctx.projectPath = r.config.ProjectPath
 
 	for _, param := range step.Params {
-		is, err := isGlobal(param.Value)
+		isG, err := globals.IsGlobal(param.Value)
 		if err != nil {
 			return &ContextImpl{}, err
 		}
 
-		if is {
-			parsed := parseGlobal(config.Globals, param.Value)
+		if isG {
+			parsed := globals.Parse(config.Globals, param.Value)
 			if parsed == "" {
 				return &ContextImpl{}, NewError(step.Code, fmt.Sprintf("Global %s is required", param.Value))
 			}
@@ -194,25 +194,4 @@ func (c *ContextImpl) ProjectPath() string {
 
 func (c *ContextImpl) Params() map[string]string {
 	return c.params
-}
-
-func isGlobal(p string) (bool, error) {
-	regex, err := regexp.Compile("{.+}")
-	if err != nil {
-		return false, err
-	}
-
-	return regex.MatchString(p), nil
-}
-
-//@todo primitive way, change it
-func parseGlobal(globals []schema.Var, p string) string {
-	var val string
-	for _, g := range globals {
-		if "{"+g.Name+"}" == p {
-			val = g.Value
-		}
-	}
-
-	return val
 }
