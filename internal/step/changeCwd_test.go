@@ -1,7 +1,6 @@
 package step
 
 import (
-	"github.com/szumel/rusher/internal/step"
 	"os"
 	"testing"
 )
@@ -9,7 +8,7 @@ import (
 const dir = "/"
 
 func TestChangeCwd(t *testing.T) {
-	s := step.ChangeCwd{}
+	s := ChangeCwd{}
 	ctx := ctxMock{}
 
 	err := s.Execute(&ctx)
