@@ -7,3 +7,6 @@ The idea is to define in the file the steps that must be made in the shell.
 File format is xml, for now. (schema.xml in repository root)
 
 In order to fiddling around, just execute make in repo root then ./rusher [--help]
+
+Usage:
+rusher -s=filename.xml -e=test
