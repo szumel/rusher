@@ -2,14 +2,10 @@ package step
 
 import (
 	"fmt"
+	"github.com/szumel/rusher/internal/platform/risk"
 	"io"
 	"os"
-	"github.com/szumel/rusher/internal/platform/risk"
 )
-
-func init() {
-	Register(&copyFiles{})
-}
 
 type copyFiles struct{}
 

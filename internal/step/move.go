@@ -1,13 +1,9 @@
 package step
 
 import (
-	"os"
 	"fmt"
+	"os"
 )
-
-func init() {
-	Register(&Move{})
-}
 
 type Move struct{}
 

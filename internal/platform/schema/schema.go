@@ -12,6 +12,17 @@ const (
 	errInvalidEnv = "ensure that given env exists in config pool"
 )
 
+func NewFromString(schema string) (*ConfigPool, error) {
+	return NewFromByte([]byte(schema))
+}
+
+func NewFromByte(schema []byte) (*ConfigPool, error) {
+	c := &ConfigPool{}
+	err := xml.Unmarshal(schema, c)
+
+	return c, err
+}
+
 func New(path string) (*ConfigPool, error) {
 	c := &ConfigPool{}
 	err := c.Fetch(path)
@@ -28,8 +39,12 @@ type Config struct {
 	Environment string   `xml:"environment"`
 	XMLName     xml.Name `xml:"config"`
 	ProjectPath string   `xml:"projectPath"`
-	Steps       []Step   `xml:"steps>step"`
+	Sequence    Sequence `xml:"sequence"`
 	Globals     []Var    `xml:"globals>var"`
+}
+
+type Sequence struct {
+	SequenceElems []SequenceElem `xml:",any"`
 }
 
 type Var struct {
@@ -37,9 +52,17 @@ type Var struct {
 	Value string `xml:"value,attr"`
 }
 
-type Step struct {
-	Code   string     `xml:"code,attr"`
-	Params []xml.Attr `xml:",any,attr"`
+//@todo create StepElem like MacroElem and convert (remove Code there)
+type SequenceElem struct {
+	XMLName xml.Name
+	Code    string     `xml:"code,attr"`
+	Params  []xml.Attr `xml:",any,attr"`
+}
+
+type MacroElem struct {
+	Version string
+	Source  string
+	Params  []xml.Attr
 }
 
 func (c *ConfigPool) Fetch(filename string) error {

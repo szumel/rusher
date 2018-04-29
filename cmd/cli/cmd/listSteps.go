@@ -3,8 +3,6 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"log"
-	"github.com/szumel/rusher/internal/platform/container"
 	"github.com/szumel/rusher/internal/step"
 )
 
@@ -17,12 +15,7 @@ var listStepsCmd = &cobra.Command{
 	Short: "Listing steps",
 	Long:  "Listing all available steps",
 	Run: func(cmd *cobra.Command, args []string) {
-		stepPool, err := container.Get(step.AliasPool)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		for _, step := range stepPool.(*step.Pool).Steps {
+		for _, step := range step.StepsPool.Steps {
 			fmt.Println("\n#COMMAND")
 			fmt.Println("	Name: " + step.Name())
 			fmt.Println("	Code: " + step.Code())

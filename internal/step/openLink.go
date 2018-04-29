@@ -5,10 +5,6 @@ import (
 	"net/http"
 )
 
-func init() {
-	Register(&openLink{})
-}
-
 type openLink struct {
 	ctx Context
 }

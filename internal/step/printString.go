@@ -1,18 +1,14 @@
 package step
 
 import (
-	"fmt"
 	"errors"
+	"fmt"
 )
 
-func init () {
-	Register(&PrintString{})
-}
-
-type PrintString struct {}
+type PrintString struct{}
 
 func (*PrintString) Execute(ctx Context) error {
-	for _, value  := range ctx.Params() {
+	for _, value := range ctx.Params() {
 		fmt.Println(value)
 	}
 
@@ -43,4 +39,3 @@ func (*PrintString) Validate(ctx Context) error {
 
 	return nil
 }
-

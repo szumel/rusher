@@ -5,11 +5,6 @@ import (
 	"os"
 )
 
-func init() {
-	step := &ChangeCwd{}
-	Register(step)
-}
-
 type ChangeCwd struct{}
 
 func (*ChangeCwd) Execute(ctx Context) error {

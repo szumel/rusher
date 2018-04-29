@@ -5,12 +5,6 @@ import (
 	"os/exec"
 )
 
-func init() {
-	Register(&Magento2EnableModules{})
-	Register(&Magento2Compile{})
-	Register(&Magento2SetupUpgrade{})
-}
-
 type Magento2EnableModules struct{}
 
 func (*Magento2EnableModules) Execute(ctx Context) error {
