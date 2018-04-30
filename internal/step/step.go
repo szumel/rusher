@@ -130,7 +130,8 @@ func (r *rusher) stepSc(step schema.SequenceElem) (stepCtx, error) {
 }
 
 func (r *rusher) macroScs(scs []stepCtx, macroElem schema.MacroElem) ([]stepCtx, error) {
-	macroSchema, err := macro.Load(macroElem.Source)
+	loader := macro.CreateLoader()
+	macroSchema, err := loader.Load(macroElem.Source)
 	if err != nil {
 		return nil, err
 	}

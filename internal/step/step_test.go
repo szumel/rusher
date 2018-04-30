@@ -30,18 +30,8 @@ var schemaDefinition = `
 
 func macroPath() string {
 	wd, _ := os.Getwd()
-	return wd + "/macro.xml"
+	return wd + "/macro/macro.xml"
 }
-
-//@todo mock source? change path?
-const (
-	macroDefinition = `
-	<macro v="1.0.0">
-		<step code="printPwd" />
-		<step code="changeCwd" dir="/"/>
-	</macro>
-`
-)
 
 func TestExtractSteps(t *testing.T) {
 	expected := []stepCtx{
