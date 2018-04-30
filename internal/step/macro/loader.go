@@ -2,6 +2,7 @@ package macro
 
 import (
 	"io"
+	"io/ioutil"
 	"os"
 )
 
@@ -52,13 +53,12 @@ func (l *Loader) loadFile(source string) (Schema, error) {
 
 	defer f.Close()
 
-	p := make([]byte, 128)
-	_, err = f.Read(p)
+	s, err := ioutil.ReadAll(f)
 	if err != nil {
 		return "", err
 	}
 
-	return Schema(p), nil
+	return Schema(s), nil
 }
 
 type osFilesystem struct{}

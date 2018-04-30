@@ -2,6 +2,7 @@ package macro
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"strings"
 	"testing"
@@ -13,8 +14,6 @@ var (
     <step code="printPwd"/>
     <step code="changeCwd" dir="/xx"/>
 </macro>`
-
-	stringExpectedSchema = removeWhites(string(expectedSchema))
 )
 
 //@todo test GIT
@@ -31,8 +30,8 @@ func TestLoad(t *testing.T) {
 		}
 
 		stringSchema := removeWhites(string(schema))
-		fmt.Println("exx", stringExpectedSchema, len(stringExpectedSchema))
-		fmt.Println("got", stringSchema, len(schema))
+		stringExpectedSchema := removeWhites(string(expectedSchema))
+
 		if stringSchema != stringExpectedSchema {
 			log.Fatal("macro.Load failed: loaded schema is not same as expected")
 		}
@@ -42,6 +41,7 @@ func TestLoad(t *testing.T) {
 func removeWhites(s string) string {
 	s = strings.Replace(string(s), " ", "", -1)
 	s = strings.Replace(s, "\n", "", -1)
+	s = strings.Replace(s, "\x00", "", -1)
 
 	return s
 }
@@ -52,12 +52,21 @@ func (*filesystemMock) open(name string) (file, error) {
 	return &fileMock{}, nil
 }
 
-type fileMock struct{}
+type fileMock struct {
+	done bool
+}
 
-func (*fileMock) Read(p []byte) (n int, err error) {
-	r := strings.NewReader(stringExpectedSchema)
+func (f *fileMock) Read(p []byte) (n int, err error) {
+	if f.done {
+		return 0, io.EOF
+	}
+	for i, b := range []byte(expectedSchema) {
+		p[i] = b
+	}
 
-	return r.Read(p)
+	f.done = true
+
+	return len(p), nil
 }
 
 func (*fileMock) Close() error {
