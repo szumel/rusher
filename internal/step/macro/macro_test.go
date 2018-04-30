@@ -38,7 +38,7 @@ func TestCreate(t *testing.T) {
 	}
 
 	if len(m.Steps) != 2 {
-		log.Fatalf("macro.Create failed: expected steps length %s got %s", 2, len(m.Steps))
+		log.Fatalf("macro.Create failed: expected steps length %d got %d", 2, len(m.Steps))
 	}
 
 	expectedSteps := []Step{
