@@ -31,6 +31,15 @@ var StepsPool = &Pool{Steps: []Step{
 	&openLink{},
 }}
 
+type VersionNotFoundError struct {
+	Version string
+	Source  string
+}
+
+func (v *VersionNotFoundError) Error() string {
+	return fmt.Sprintf("version %s not found in %s", v.Version, v.Source)
+}
+
 type ErrInvalidStep struct{}
 
 func (e *ErrInvalidStep) Error() string {
@@ -38,7 +47,7 @@ func (e *ErrInvalidStep) Error() string {
 }
 
 func Rush(c *schema.Config, env string) error {
-	r := rusher{pool: StepsPool, config: c}
+	r := rusher{pool: StepsPool, config: c, loader: macro.CreateLoader()}
 
 	return r.rush()
 }
@@ -46,6 +55,7 @@ func Rush(c *schema.Config, env string) error {
 type rusher struct {
 	pool   *Pool
 	config *schema.Config
+	loader macro.Loader
 }
 
 func (r *rusher) rush() error {
@@ -130,8 +140,7 @@ func (r *rusher) stepSc(step schema.SequenceElem) (stepCtx, error) {
 }
 
 func (r *rusher) macroScs(scs []stepCtx, macroElem schema.MacroElem) ([]stepCtx, error) {
-	loader := macro.CreateLoader()
-	macroSchema, err := loader.Load(macroElem.Source)
+	macroSchema, err := r.loader.Load(macroElem.Source)
 	if err != nil {
 		return nil, err
 	}
@@ -141,6 +150,9 @@ func (r *rusher) macroScs(scs []stepCtx, macroElem schema.MacroElem) ([]stepCtx,
 		return nil, err
 	}
 
+	if m.Version != macroElem.Version {
+		return nil, &VersionNotFoundError{Version: macroElem.Version, Source: macroElem.Source}
+	}
 	for _, step := range m.Steps {
 		for _, stepCmd := range r.pool.Steps {
 			if stepCmd.Code() == step.Code {

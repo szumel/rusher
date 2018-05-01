@@ -17,19 +17,23 @@ type storage interface {
 	open(name string) (file, error)
 }
 
-func CreateLoader() *Loader {
-	return &Loader{
+func CreateLoader() *LoaderImpl {
+	return &LoaderImpl{
 		filesystem: &osFilesystem{},
 		git:        &osFilesystem{},
 	}
 }
 
-type Loader struct {
+type Loader interface {
+	Load(source string) (Schema, error)
+}
+
+type LoaderImpl struct {
 	git        storage
 	filesystem storage
 }
 
-func (l *Loader) Load(source string) (Schema, error) {
+func (l *LoaderImpl) Load(source string) (Schema, error) {
 	stype := resolveSourceType(source)
 	var schema Schema
 	switch stype {
@@ -45,7 +49,7 @@ func (l *Loader) Load(source string) (Schema, error) {
 	return schema, nil
 }
 
-func (l *Loader) loadFile(source string) (Schema, error) {
+func (l *LoaderImpl) loadFile(source string) (Schema, error) {
 	f, err := l.filesystem.open(source)
 	if err != nil {
 		return "", err

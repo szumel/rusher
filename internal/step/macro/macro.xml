@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-
-<macro v="1.0.0">
-    <step code="printPwd"/>
-    <step code="changeCwd" dir="/xx"/>
-</macro>

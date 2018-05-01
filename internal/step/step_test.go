@@ -4,8 +4,8 @@ import (
 	"encoding/xml"
 	"fmt"
 	"github.com/szumel/rusher/internal/platform/schema"
+	"github.com/szumel/rusher/internal/step/macro"
 	"log"
-	"os"
 	"testing"
 )
 
@@ -22,15 +22,26 @@ var schemaDefinition = `
        <!-- Execute 'rusher listSteps' for all available steps listing -->
        <sequence>
 			<step code="printPwd" />
-			<macro source="` + macroPath() + `" v="1.0.0"/>
+			<macro source="macro.xml" v="1.0.0"/>
        </sequence>
    </config>
 </configPool>
 `
 
-func macroPath() string {
-	wd, _ := os.Getwd()
-	return wd + "/macro/macro.xml"
+var currentConfig *schema.Config
+
+func init() {
+	cpool, err := schema.NewFromString(schemaDefinition)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	c, err := schema.GetCurrentConfig(cpool, "test")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	currentConfig = c
 }
 
 func TestExtractSteps(t *testing.T) {
@@ -40,31 +51,21 @@ func TestExtractSteps(t *testing.T) {
 		{step: &ChangeCwd{}, ctx: &ContextImpl{}},
 	}
 
-	cpool, err := schema.NewFromString(schemaDefinition)
+	r := rusher{StepsPool, currentConfig, &loaderMock{version: "1.0.0"}}
+
+	scs, err := r.extract()
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	c, err := schema.GetCurrentConfig(cpool, "test")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	r := rusher{StepsPool, c}
-
-	scs, err := r.extract()
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	if len(scs) != len(expected) {
-		log.Fatalf("rusher.extract failed: expected slice length %d, got %d", len(expected), len(scs))
+		t.Fatalf("rusher.extract failed: expected slice length %d, got %d", len(expected), len(scs))
 	}
 
 	for index, sc := range scs {
 		fmt.Println(sc.step.Code(), expected[index].step.Code())
 		if sc.step.Code() != expected[index].step.Code() {
-			log.Fatalf("rusher.extract failed: expected %s in sequence, got %s", expected[index], sc.step.Code())
+			t.Fatalf("rusher.extract failed: expected %s in sequence, got %s", expected[index], sc.step.Code())
 		}
 	}
 }
@@ -88,4 +89,23 @@ func TestConvertSequenceElemToMacro(t *testing.T) {
 	if macroElem.Source != "macro.xml" {
 		log.Fatalf("step.toMacro failed: Source expected %s got %s", "macro.xml", macroElem.Source)
 	}
+}
+
+func TestWrongVersion(t *testing.T) {
+	r := rusher{StepsPool, currentConfig, &loaderMock{version: "1.1.0"}}
+	_, err := r.extract()
+	_, ok := err.(*VersionNotFoundError)
+	if !ok {
+		t.Fatal("step.extrac faild: expected VersionNotFoundError")
+	}
+}
+
+type loaderMock struct {
+	version string
+}
+
+func (l *loaderMock) Load(source string) (macro.Schema, error) {
+	ms := "<?xml version=\"1.0\"?><macro v=\"" + l.version + "\"><step code=\"printPwd\"/><step code=\"changeCwd\"/></macro>"
+
+	return macro.Schema(ms), nil
 }

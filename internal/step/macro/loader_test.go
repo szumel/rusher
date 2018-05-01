@@ -1,19 +1,9 @@
 package macro
 
 import (
-	"fmt"
-	"io"
 	"log"
 	"strings"
 	"testing"
-)
-
-var (
-	expectedSchema Schema = `<?xml version="1.0"?>
-<macro v="1.0.0">
-    <step code="printPwd"/>
-    <step code="changeCwd" dir="/xx"/>
-</macro>`
 )
 
 //@todo test GIT
@@ -23,7 +13,7 @@ func TestLoad(t *testing.T) {
 	}
 
 	for _, source := range sources {
-		loader := Loader{filesystem: &filesystemMock{}, git: &osFilesystem{}}
+		loader := LoaderImpl{filesystem: &filesystemMock{file: &fileMock{data: []byte(expectedSchema)}}, git: &osFilesystem{}}
 		schema, err := loader.Load(source)
 		if err != nil {
 			log.Fatal(err)
@@ -44,31 +34,4 @@ func removeWhites(s string) string {
 	s = strings.Replace(s, "\x00", "", -1)
 
 	return s
-}
-
-type filesystemMock struct{}
-
-func (*filesystemMock) open(name string) (file, error) {
-	return &fileMock{}, nil
-}
-
-type fileMock struct {
-	done bool
-}
-
-func (f *fileMock) Read(p []byte) (n int, err error) {
-	if f.done {
-		return 0, io.EOF
-	}
-	for i, b := range []byte(expectedSchema) {
-		p[i] = b
-	}
-
-	f.done = true
-
-	return len(p), nil
-}
-
-func (*fileMock) Close() error {
-	return nil
 }
