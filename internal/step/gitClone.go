@@ -9,10 +9,6 @@ import (
 	"io/ioutil"
 )
 
-func init() {
-	Register(&GitClone{})
-}
-
 type GitClone struct{}
 
 func (*GitClone) Execute(ctx Context) error {

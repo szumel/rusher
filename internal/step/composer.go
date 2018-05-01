@@ -1,14 +1,10 @@
 package step
 
 import (
-	"os/exec"
-	"os"
 	"fmt"
+	"os"
+	"os/exec"
 )
-
-func init() {
-	Register(&ComposerInstall{})
-}
 
 type ComposerInstall struct{}
 

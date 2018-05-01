@@ -1,16 +1,11 @@
 package step
 
 import (
-	"os"
 	"fmt"
+	"os"
 )
 
-func init () {
-	step := &PrintPwd{}
-	Register(step)
-}
-
-type PrintPwd struct {}
+type PrintPwd struct{}
 
 func (*PrintPwd) Validate(ctx Context) error {
 	return nil

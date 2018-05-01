@@ -2,13 +2,9 @@ package step
 
 import (
 	"fmt"
-	"os"
 	"github.com/szumel/rusher/internal/platform/risk"
+	"os"
 )
-
-func init() {
-	Register(&RemoveDir{})
-}
 
 type RemoveDir struct{}
 

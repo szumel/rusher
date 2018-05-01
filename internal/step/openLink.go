@@ -5,23 +5,18 @@ import (
 	"net/http"
 )
 
-func init() {
-	Register(&openLink{})
-}
-
 type openLink struct {
 	ctx Context
 }
 
-
 func (s *openLink) Execute(ctx Context) error {
-	response, err := http.Get(ctx.Params()["url"]);
+	response, err := http.Get(ctx.Params()["url"])
 	if err != nil {
-		return err;
+		return err
 	}
 
 	fmt.Println(fmt.Sprintf("Opening url: %s status: %d", ctx.Params()["url"], response.StatusCode))
-	return nil;
+	return nil
 }
 
 func (*openLink) Code() string {

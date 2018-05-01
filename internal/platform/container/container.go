@@ -24,5 +24,3 @@ func Set(serviceName string, instance interface{}) error {
 	//@todo check if duplicated?
 	return nil
 }
-
-

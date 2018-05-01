@@ -8,8 +8,9 @@
            <var name="php" value="/usr/bin/php"/>
        </globals>
        <!-- Execute 'rusher listSteps' for all available steps listing -->
-       <steps>
-            <step code="changeCwd" dir="{php}" />
-       </steps>
+       <sequence>
+            <step code="changeCwd" dir="/" />
+            <macro source="/var/www/macro.xml" v="1.0.0"/>
+       </sequence>
    </config>
 </configPool>

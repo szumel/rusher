@@ -1,12 +1,12 @@
 package schema
 
 import (
-	"testing"
 	"reflect"
+	"testing"
 )
 
 func TestGetCurrentConfig(t *testing.T) {
-	c := Config{Environment:"test"}
+	c := Config{Environment: "test"}
 	s := ConfigPool{
 		Configs: []Config{c},
 	}

@@ -3,15 +3,8 @@ package step
 import (
 	"errors"
 	"fmt"
-	"github.com/szumel/rusher/internal/platform/rollback"
 	"os"
 )
-
-func init() {
-	step := &Symlink{}
-	Register(step)
-	rollback.Subscribe(step)
-}
 
 type Symlink struct {
 	ctx Context

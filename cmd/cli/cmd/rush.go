@@ -64,7 +64,7 @@ func doRollback(err error, currentConfig *schema.Config) error {
 	fmt.Println("Starting rollback...")
 	rollbackers := rollbacker.(*rollback.Pool).Rollbackers
 	for _, rollbacker := range rollbackers {
-		for _, stepConfig := range currentConfig.Steps {
+		for _, stepConfig := range currentConfig.Sequence.SequenceElems {
 			if rollbacker.Code() == stepConfig.Code {
 				rollbacker.Rollback()
 			}
