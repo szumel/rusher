@@ -10,115 +10,88 @@ In order to fiddling around, just execute make in repo root then ./rusher [--hel
 
 Usage:
 rusher -s=filename.xml -e=test
-#COMMAND
-	Name: Change Current Working Directory
-	Code: changeCwd
-	Description: Changing current working directory to new
-	Params:
-		dir -> New current working directory. There are predefined values you can use: {projectPath}
 
-#END
 
-#COMMAND
-	Name: Composer install
-	Code: composerInstall
-	Description: Install composer dependencies
 
-#END
 
-#COMMAND
-	Name: Copy Files
-	Code: copyFiles
-	Description: Copy files and folders from place to place
-	Params:
-		to -> file/dir name to which copy
-		from -> which file/dir should be copied?
+## Change Current Working Directory [changeCwd]
+### Changing current working directory to new
+Params:
+* dir -> New current working directory. There are predefined values you can use: {projectPath}
 
-#END
+-------------------------------
 
-#COMMAND
-	Name: Git clone
-	Code: gitClone
-	Description: Cloning git repository
-	Params:
-		origin -> repository origin path
-		dir -> to which location clone
-		key -> path to ssh key
+## Composer install [composerInstall]
+### Install composer dependencies
+-------------------------------
 
-#END
+## Copy Files [copyFiles]
+### Copy files and folders from place to place
+Params:
+* from -> which file/dir should be copied?
+* to -> file/dir name to which copy
 
-#COMMAND
-	Name: Magento 2 setup upgrade
-	Code: magento2SetupUpgrade
-	Description: Executes setup:upgrade command on magento 2 intance
+-------------------------------
 
-#END
+## Git clone [gitClone]
+### Cloning git repository
+Params:
+* origin -> repository origin path
+* dir -> to which location clone
+* key -> path to ssh key
 
-#COMMAND
-	Name: Magento2 enable modules
-	Code: magento2EnableModules
-	Description: Enable all modules in magento 2 instance
+-------------------------------
 
-#END
+## Magento 2 setup upgrade [magento2SetupUpgrade]
+### Executes setup:upgrade command on magento 2 intance
+-------------------------------
 
-#COMMAND
-	Name: Magento 2 compile
-	Code: magento2Compile
-	Description: Compiles magento 2 instance
+## Magento2 enable modules [magento2EnableModules]
+### Enable all modules in magento 2 instance
+-------------------------------
 
-#END
+## Magento 2 compile [magento2Compile]
+### Compiles magento 2 instance
+-------------------------------
 
-#COMMAND
-	Name: Move
-	Code: move
-	Description: Move file/dir to new location with new name
-	Params:
-		source -> source file/dir path to move
-		dst -> destination file/dir path
+## Move [move]
+### Move file/dir to new location with new name
+Params:
+* source -> source file/dir path to move
+* dst -> destination file/dir path
 
-#END
+-------------------------------
 
-#COMMAND
-	Name: Print PWD
-	Code: printPwd
-	Description: Print to stdout process working directory
+## Print PWD [printPwd]
+### Print to stdout process working directory
+-------------------------------
 
-#END
-
-#COMMAND
-	Name: Print String
-	Code: printString
-	Description: Printing to stdout provided string. 
+## Print String [printString]
+### Printing to stdout provided string. 
  String should be provided as param 'text'.
-	Params:
-		text -> string
+Params:
+* text -> string
 
-#END
+-------------------------------
 
-#COMMAND
-	Name: Remove Dir
-	Code: removeDir
-	Description: Removes given directory
-	Params:
-		dir -> directory path which will be removed
+## Remove Dir [removeDir]
+### Removes given directory
+Params:
+* dir -> directory path which will be removed
 
-#END
+-------------------------------
 
-#COMMAND
-	Name: Symlink
-	Code: symlink
-	Description: create symlink in context of current working direcory
-	Params:
-		source -> link source
-		target -> link target
+## Symlink [symlink]
+### create symlink in context of current working direcory
+Params:
+* source -> link source
+* target -> link target
 
-#END
+-------------------------------
 
-#COMMAND
-	Name: Open Link
-	Code: openLink
-	Description: open link to warm up cache of website
-	Params:
-		url -> link to open
+## Open Link [openLink]
+### open link to warm up cache of website
+Params:
+* url -> link to open
 
-#END
+-------------------------------

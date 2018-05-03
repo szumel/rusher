@@ -16,17 +16,18 @@ var listStepsCmd = &cobra.Command{
 	Long:  "Listing all available steps",
 	Run: func(cmd *cobra.Command, args []string) {
 		for _, step := range step.StepsPool.Steps {
-			fmt.Println("\n#COMMAND")
-			fmt.Println("	Name: " + step.Name())
-			fmt.Println("	Code: " + step.Code())
-			fmt.Println("	Description: " + step.Description())
+			title := `
+## %s [%s]
+### %s`
+			fmt.Printf(title, step.Name(), step.Code(), step.Description())
 			if len(step.Params()) > 0 {
-				fmt.Println("	Params:")
+				fmt.Println("\nParams:")
 				for name, value := range step.Params() {
-					fmt.Println("		" + name + " -> " + value)
+					fmt.Println("* " + name + " -> " + value)
 				}
 			}
-			fmt.Println("\n#END")
+
+			fmt.Println("\n-------------------------------")
 		}
 	},
 }
