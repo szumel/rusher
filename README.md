@@ -95,3 +95,11 @@ Params:
 * url -> link to open
 
 -------------------------------
+
+## aptInstall [aptInstall]
+### install package via apt get
+Params:
+* package -> package to install
+* accept -> accept all dependencies to install [y/n]
+
+-------------------------------

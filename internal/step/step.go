@@ -29,6 +29,7 @@ var StepsPool = &Pool{Steps: []Step{
 	&RemoveDir{},
 	&Symlink{},
 	&openLink{},
+	&aptInstall{},
 }}
 
 type VersionNotFoundError struct {
