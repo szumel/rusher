@@ -40,7 +40,7 @@ func (a *aptInstall) Validate(ctx Context) error {
 		return NewError(a.Name(), "package is required")
 	}
 
-	if ctx.Params()["accept"] != "y" || ctx.Params()["accept"] != "n" {
+	if ctx.Params()["accept"] != "y" && ctx.Params()["accept"] != "n" {
 		return NewError(a.Name(), "accept accepts y or n value")
 	}
 
