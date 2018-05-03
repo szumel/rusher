@@ -1,6 +1,6 @@
 ### Rusher
 
-The idea is to create a tool that will streamline and simplify the execution of scripts necessary to deploy the application.
+The idea is to create a tool that will streamline and simplify the execution of scripts (with security in mind) necessary to deploy the application.
 
 The idea is to define in the file the steps that must be made in the shell.
 
